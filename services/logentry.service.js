@@ -12,8 +12,26 @@ module.exports = {
         DbService("logentries")
     ],
 
+    settings: {
+
+        /** public fields */
+        fields: ["_id", "activity", "date", "user", "notes", "duration"],
+
+        /** Validator schema for entity */
+		entityValidator: {
+			user: { type: "string", min: 2 },
+			activity: { type: "string", min: 3 },
+			date: { type: "string" },
+			notes: { type: "string", max: 350, optional: false },
+			duration: { type: "string", optional: true },
+		}
+    },
+
     actions: {
 
+        /**
+         * Create log entry
+         */
         create: {
 
             params: {
@@ -24,11 +42,16 @@ module.exports = {
                 let entity = ctx.params.logentry;                
                 console.log(`logentry passed in: ${entity.activity}`);
 
-                return this.adapter.insert(entity)
+                return this.validateEntity(entity)
+                .then(() => {
+
+                    this.adapter.insert(entity)
                     .then( doc => {
                         console.log(doc);
                         return doc;
                     });
+
+                });
             }
 
         } // create
@@ -50,7 +73,28 @@ module.exports = {
             }
         }
 
-    }
+    },
+
+    /**
+	 * Service created lifecycle event handler
+	 */
+	created() {
+        console.log("In the created() lifecycle event handler...");
+	},
+
+	/**
+	 * Service started lifecycle event handler
+	 */
+	started() {
+        console.log("In service started lifecycle event handler...");
+	},
+
+	/**
+	 * Service stopped lifecycle event handler
+	 */
+	stopped() {
+        console.log("In Service stopped lifecycle event handler...");
+	}
 
 
 

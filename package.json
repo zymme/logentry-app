@@ -24,7 +24,8 @@
     "moleculer": "^0.13.0",
     "moleculer-db": "^0.7.5",
     "moleculer-db-adapter-mongo": "^0.4.1",
-    "moleculer-web": "^0.8.0"
+    "moleculer-web": "^0.8.0",
+    "swagger-jsdoc": "^3.0.2"
   },
   "engines": {
     "node": ">= 8.x.x"
