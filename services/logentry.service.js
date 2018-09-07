@@ -39,19 +39,19 @@ module.exports = {
             },
             async handler(ctx) {
                 console.log("Entered create runlog entry!");
-                let entity = ctx.params.logentry;                
+                let entity = ctx.params.logentry;
                 console.log(`logentry passed in: ${entity.activity}`);
 
                 return this.validateEntity(entity)
-                .then(() => {
+                  .then(() => {
 
-                    this.adapter.insert(entity)
-                    .then( doc => {
-                        console.log(doc);
-                        return doc;
-                    });
+                      return this.adapter.insert(entity)
+                            .then(resp => {
+                              console.log(`entitiy created ${JSON.stringify(resp)}`)
+                              return this.Promise.resolve(resp);
+                            });
 
-                });
+                  });
             }
 
         } // create
@@ -59,9 +59,9 @@ module.exports = {
 
         /**
          * Get a runlog entry by id
-         * 
-         * @param {String} id 
-         * 
+         *
+         * @param {String} id
+         *
          * @returns {Object} runlog entry
          */
         get: {
