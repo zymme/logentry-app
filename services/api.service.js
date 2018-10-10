@@ -37,7 +37,8 @@ module.exports = {
 
 				// runlog
 				"POST /logentry": "logentry.create",
-				"GET /logentry/:id": "logentry.get"
+				"GET /logentry/:id": "logentry.get",
+				"GET /logentry": "logentry.getAll"
 			}
 		}],
 
@@ -45,6 +46,32 @@ module.exports = {
 		assets: {
 			folder: "public"
 		}
+
+	},
+	
+	methods: {
+
+		/** Authorize the request
+		 * 
+		 * @param {Context} ctx
+		 * @param {Object} route 
+		 * @param {IncomingRequest} req
+		 * @return {Promise}
+		 * 
+		 */
+
+		 authorize(ctx, route, req) {
+
+			console.log('Entered authorize () ...');
+			
+			let token;
+			
+			if(req.headers.authorization) {
+				console.log("we have authorization header");
+				
+			}
+		 }
+
 
 	}
 };

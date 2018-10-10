@@ -5,11 +5,14 @@ const { ForbiddenError } = require("moleculer-web").Errors;
 
 const DbService = require("../mixins/db.mixin");
 
+const OidcService = require("../mixins/oidc-client.mixin");
+
 module.exports = {
     name: "logentry",
     mixins: [
 
-        DbService("logentries")
+        DbService("logentries"),
+        OidcService()
     ],
 
     settings: {
@@ -31,6 +34,10 @@ module.exports = {
 
         /**
          * Create log entry
+         *
+         * @param {Object} log entry
+         *
+         * @returns {Object} the created log entry
          */
         create: {
 
@@ -68,10 +75,37 @@ module.exports = {
 
             handler(ctx) {
                 console.log("Entered GET for runlog");
+                
 
-                return `Returning runlog entry for ${ctx.params.id}`;
+                return this.Promise.resolve()
+                    .then (() => this.adapter.findById(ctx.params.id)
+                    .then(resp => {
+                        console.log(`returned from db ${resp._id}`);
+                        return resp;
+                        })
+                    );
+
+                //return `Returning runlog entry for ${ctx.params.id}`;
             }
-        }
+        },
+
+        getAll: {
+
+            handler(ctx) {
+                console.log('Entered getAll() for entries');
+
+                return this.Promise.resolve()
+                    .then(() => this.adapter.find() 
+                    .then(resp => {
+                        console.log('dataset returned');
+                        return resp;
+                        })
+                    );
+            }
+
+
+        }   //getAll
+
 
     },
 

@@ -25,6 +25,7 @@
     "moleculer-db": "^0.7.5",
     "moleculer-db-adapter-mongo": "^0.4.1",
     "moleculer-web": "^0.8.0",
+    "oidc-client-node": "^1.0.10",
     "swagger-jsdoc": "^3.0.2"
   },
   "engines": {
